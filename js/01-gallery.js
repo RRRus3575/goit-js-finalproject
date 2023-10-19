@@ -35,12 +35,18 @@ function openImgClick(event) {
     return;
   }
 
-  document.addEventListener("keydown", closeEsc);
-
   const modal = event.target.dataset.source;
 
   instance = basicLightbox.create(
-    `<img src="${modal}" width="800" height="600">`
+    `<img src="${modal}" width="800" height="600">`,
+    {
+      onShow: () => {
+        document.addEventListener("keydown", closeEsc);
+      },
+      onClose: () => {
+        document.removeEventListener("keydown", closeEsc);
+      },
+    }
   );
 
   instance.show();
